@@ -1,0 +1,1209 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>StructureBasic</title><meta name="generator" content="MATLAB 8.5"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-06-24"><meta name="DC.source" content="StructureBasic.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">Basic Stiffness Matrix Example (Based on Hibbeler Example. 16-2)</a></li><li><a href="#2">Define Nodes</a></li><li><a href="#3">Define Members</a></li><li><a href="#4">Make a blank Global Stifness Matrix</a></li><li><a href="#5">Add length and angle to member table</a></li><li><a href="#6">Make a Local Stiffness Matrix</a></li><li><a href="#8">Make a Transformation Matrix</a></li><li><a href="#9">Transform Stiffness Matrix to Global Coordinates</a></li><li><a href="#10">Add Member Matrix to Global Stiffness Matrix</a></li><li><a href="#12">Reduce the Gloal Stiffness Matrix</a></li><li><a href="#13">Determine Fixed end forces at member ends</a></li><li><a href="#14">Invert the Reduced Vector and find the interum displacements</a></li><li><a href="#15">Put reduced displacments back into global Displacements vector</a></li><li><a href="#16">Multiply Full Global Displacements by Stiffness Matrix to determine all forces</a></li><li><a href="#17">Find Member Body Forces</a></li></ul></div><h2>Basic Stiffness Matrix Example (Based on Hibbeler Example. 16-2)<a name="1"></a></h2><pre class="codeinput"><span class="comment">%{
+</span><span class="comment">
+</span><span class="comment">    Created: C.Stewart
+</span><span class="comment">    16/6/215
+</span><span class="comment">
+</span><span class="comment">
+</span><span class="comment">%}
+</span>clear;
+close <span class="string">all</span>;
+clc;
+
+format <span class="string">shortG</span>
+</pre><h2>Define Nodes<a name="2"></a></h2><pre class="codeinput">NodeTable = [1	0   0; <span class="comment">%[NodeNum, x-coord, y-coord]</span>
+            2	240	180;
+            3	480	180]
+
+<span class="comment">% Define the Fixed Degrees of Freedom</span>
+numDOFs = length(NodeTable)*3
+DOFs = logical(ones(1,numDOFs))
+
+DOFs(1:3) = 0
+DOFs(7:9) = 0
+</pre><pre class="codeoutput">
+NodeTable =
+
+     1     0     0
+     2   240   180
+     3   480   180
+
+
+numDOFs =
+
+     9
+
+
+DOFs =
+
+     1     1     1     1     1     1     1     1     1
+
+
+DOFs =
+
+     0     0     0     1     1     1     1     1     1
+
+
+DOFs =
+
+     0     0     0     1     1     1     0     0     0
+
+</pre><h2>Define Members<a name="3"></a></h2><pre class="codeinput"><span class="comment">% Example section ???</span>
+A_m2 = 12 <span class="comment">%((12*25.4)^2)/1000^2 % Based on 12" from Hibbeler</span>
+E_Pa = 29E3 <span class="comment">%200E9 % Using Pascals</span>
+I_m4 = 600 <span class="comment">%((600*25.4)^4)/(1000^4) % Based on 600in^4</span>
+
+LENGTH_COL = 6;
+ANGLE_COL = 7;
+
+MemberTable =   [1	2	A_m2	E_Pa I_m4; <span class="comment">%[NodeA, NodeB,E,A,I,length,angle]</span>
+                 2	3	A_m2	E_Pa I_m4]
+
+<span class="comment">% Plot to verify</span>
+figure();
+structure_plot = gcf
+hold <span class="string">on</span>;
+
+<span class="keyword">for</span> i=1:length(MemberTable(:,1))
+    memStartNode = MemberTable(i,1);
+    memEndNode = MemberTable(i,2);
+
+    plot([NodeTable(memStartNode,2) NodeTable(memEndNode,2)],[NodeTable(memStartNode,3) NodeTable(memEndNode,3)],<span class="string">'b'</span>)
+<span class="keyword">end</span>
+
+ax = gca;
+axis_min = min([ax.XLim ax.YLim])
+axis_max = max([ax.XLim ax.YLim])
+range = axis_max-axis_min
+padding = range/5
+axisLimits = [axis_min-padding, axis_max+padding]
+axis([axisLimits axisLimits])
+
+hold <span class="string">off</span>;
+</pre><pre class="codeoutput">
+A_m2 =
+
+    12
+
+
+E_Pa =
+
+       29000
+
+
+I_m4 =
+
+   600
+
+
+MemberTable =
+
+           1           2          12       29000         600
+           2           3          12       29000         600
+
+
+structure_plot = 
+
+  Figure (1) with properties:
+
+      Number: 1
+        Name: ''
+       Color: [0.94 0.94 0.94]
+    Position: [440 378 560 420]
+       Units: 'pixels'
+
+  Use GET to show all properties
+
+
+axis_min =
+
+     0
+
+
+axis_max =
+
+   500
+
+
+range =
+
+   500
+
+
+padding =
+
+   100
+
+
+axisLimits =
+
+  -100   600
+
+</pre><img vspace="5" hspace="5" src="StructureBasic_01.png" alt=""> <h2>Make a blank Global Stifness Matrix<a name="4"></a></h2><pre class="codeinput">K_global = zeros(length(NodeTable)*3)
+</pre><pre class="codeoutput">
+K_global =
+
+     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0
+
+</pre><h2>Add length and angle to member table<a name="5"></a></h2><pre class="codeinput"><span class="keyword">for</span> i = 1:length(MemberTable(:,1))
+
+    <span class="comment">% Set temp variable for each member</span>
+    memStartNode = MemberTable(i,1);
+    memEndNode = MemberTable(i,2);
+
+    <span class="comment">% Find change in node coords for x and y</span>
+    memDeltaX = (NodeTable(memEndNode,2)-NodeTable(memStartNode,2));
+    memDeltaY = (NodeTable(memEndNode,3)-NodeTable(memStartNode,3));
+
+    <span class="comment">%Find the length</span>
+    memLength = sqrt(memDeltaX^2+memDeltaY^2);
+
+    <span class="comment">% Find the angle</span>
+    memAngle = atan(memDeltaY/memDeltaX);
+
+    MemberTable(i,LENGTH_COL) = memLength;
+    MemberTable(i,ANGLE_COL) = memAngle;
+<span class="keyword">end</span>
+
+MemberTable
+</pre><pre class="codeoutput">
+MemberTable =
+
+  Columns 1 through 6
+
+            1            2           12        29000          600          300
+            2            3           12        29000          600          240
+
+  Column 7
+
+       0.6435
+            0
+
+</pre><h2>Make a Local Stiffness Matrix<a name="6"></a></h2><pre class="codeinput"><span class="comment">% Initialise two lists to store member stiffness and transformation matricies</span>
+MemeberStiffness_array={};
+MemeberTransformation_array={};
+
+<span class="keyword">for</span> i=1:length(MemberTable(:,1))
+</pre><pre class="codeinput">L = MemberTable(i,LENGTH_COL)
+
+[k_member] =    [A_m2*E_Pa/L  0           0           -A_m2*E_Pa/L      0               0;
+                0       12*E_Pa*I_m4/L^3  6*E_Pa*I_m4/L^2   0           -12*E_Pa*I_m4/L^3     6*E_Pa*I_m4/L^2;
+                0       6*E_Pa*I_m4/L^2   4*E_Pa*I_m4/L     0           -6*E_Pa*I_m4/L^2      2*E_Pa*I_m4/L;
+                -A_m2*E_Pa/L  0           0           A_m2*E_Pa/L       0               0;
+                0       -12*E_Pa*I_m4/L^3 -6*E_Pa*I_m4/L^2  0           12*E_Pa*I_m4/L^3      -6*E_Pa*I_m4/L^2;
+                0       6*E_Pa*I_m4/L^2  2*E_Pa*I_m4/L     0           -6*E_Pa*I_m4/L^2      4*E_Pa*I_m4/L]
+
+<span class="comment">% Store Member Stiffness Matrix in array</span>
+MemeberStiffness_array{i} = k_member;
+</pre><pre class="codeoutput">
+L =
+
+   300
+
+
+k_member =
+
+         1160            0            0        -1160            0            0
+            0       7.7333         1160            0      -7.7333         1160
+            0         1160     2.32e+05            0        -1160     1.16e+05
+        -1160            0            0         1160            0            0
+            0      -7.7333        -1160            0       7.7333        -1160
+            0         1160     1.16e+05            0        -1160     2.32e+05
+
+</pre><pre class="codeoutput">
+L =
+
+   240
+
+
+k_member =
+
+         1450            0            0        -1450            0            0
+            0       15.104       1812.5            0      -15.104       1812.5
+            0       1812.5      2.9e+05            0      -1812.5     1.45e+05
+        -1450            0            0         1450            0            0
+            0      -15.104      -1812.5            0       15.104      -1812.5
+            0       1812.5     1.45e+05            0      -1812.5      2.9e+05
+
+</pre><h2>Make a Transformation Matrix<a name="8"></a></h2><pre class="codeinput">angle  = MemberTable(i,ANGLE_COL)
+
+alphaX =cos(angle)
+alphaY =sin(angle)
+
+[beta_memeber] =    [alphaX alphaY 0 0 0 0;
+                     -alphaY alphaX 0 0 0 0;
+                     0 0 1 0 0 0;
+                     0 0 0 alphaX alphaY 0;
+                     0 0 0 -alphaY alphaX 0;
+                     0 0 0 0 0 1]
+
+<span class="comment">% Store Memeber Transformation Matrix in array</span>
+MemeberTransformation_array{i} = beta_memeber;
+</pre><pre class="codeoutput">
+angle =
+
+       0.6435
+
+
+alphaX =
+
+          0.8
+
+
+alphaY =
+
+          0.6
+
+
+beta_memeber =
+
+          0.8          0.6            0            0            0            0
+         -0.6          0.8            0            0            0            0
+            0            0            1            0            0            0
+            0            0            0          0.8          0.6            0
+            0            0            0         -0.6          0.8            0
+            0            0            0            0            0            1
+
+</pre><pre class="codeoutput">
+angle =
+
+     0
+
+
+alphaX =
+
+     1
+
+
+alphaY =
+
+     0
+
+
+beta_memeber =
+
+     1     0     0     0     0     0
+     0     1     0     0     0     0
+     0     0     1     0     0     0
+     0     0     0     1     0     0
+     0     0     0     0     1     0
+     0     0     0     0     0     1
+
+</pre><h2>Transform Stiffness Matrix to Global Coordinates<a name="9"></a></h2><pre class="codeinput">K_member = beta_memeber'*k_member*beta_memeber <span class="comment">% nb: ' indicates transposition</span>
+</pre><pre class="codeoutput">
+K_member =
+
+       745.18       553.09         -696      -745.18      -553.09         -696
+       553.09       422.55          928      -553.09      -422.55          928
+         -696          928     2.32e+05          696         -928     1.16e+05
+      -745.18      -553.09          696       745.18       553.09          696
+      -553.09      -422.55         -928       553.09       422.55         -928
+         -696          928     1.16e+05          696         -928     2.32e+05
+
+</pre><pre class="codeoutput">
+K_member =
+
+         1450            0            0        -1450            0            0
+            0       15.104       1812.5            0      -15.104       1812.5
+            0       1812.5      2.9e+05            0      -1812.5     1.45e+05
+        -1450            0            0         1450            0            0
+            0      -15.104      -1812.5            0       15.104      -1812.5
+            0       1812.5     1.45e+05            0      -1812.5      2.9e+05
+
+</pre><h2>Add Member Matrix to Global Stiffness Matrix<a name="10"></a></h2><pre class="codeinput">    memStartNode = MemberTable(i,1)
+    mS1 = (memStartNode-1)*3+1
+    mS3 = (memStartNode-1)*3+3
+
+    memEndNode = MemberTable(i,2)
+    mE1 = (memEndNode-1)*3+1
+    mE3 = (memEndNode-1)*3+3
+
+    K_global_OLD = K_global
+    <span class="comment">% Kii</span>
+    K_global(mS1:mS3,mS1:mS3) =  K_global(mS1:mS3,mS1:mS3)+ K_member(1:3,1:3)
+    surface(K_global)
+
+    <span class="comment">% Kij</span>
+    K_global(mS1:mS3,mE1:mE3) = K_global(mS1:mS3,mE1:mE3)+ K_member(1:3,4:6)
+
+    <span class="comment">% Kij</span>
+    K_global(mE1:mE3,mS1:mS3) = K_global(mE1:mE3,mS1:mS3)+ K_member(4:6,1:3)
+
+    <span class="comment">% Kjj</span>
+    K_global(mE1:mE3,mE1:mE3) = K_global(mE1:mE3,mE1:mE3)+ K_member(4:6,4:6)
+</pre><pre class="codeoutput">
+memStartNode =
+
+     1
+
+
+mS1 =
+
+     1
+
+
+mS3 =
+
+     3
+
+
+memEndNode =
+
+     2
+
+
+mE1 =
+
+     4
+
+
+mE3 =
+
+     6
+
+
+K_global_OLD =
+
+     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0
+
+
+K_global =
+
+  Columns 1 through 6
+
+       745.18       553.09         -696            0            0            0
+       553.09       422.55          928            0            0            0
+         -696          928     2.32e+05            0            0            0
+            0            0            0            0            0            0
+            0            0            0            0            0            0
+            0            0            0            0            0            0
+            0            0            0            0            0            0
+            0            0            0            0            0            0
+            0            0            0            0            0            0
+
+  Columns 7 through 9
+
+            0            0            0
+            0            0            0
+            0            0            0
+            0            0            0
+            0            0            0
+            0            0            0
+            0            0            0
+            0            0            0
+            0            0            0
+
+
+K_global =
+
+  Columns 1 through 6
+
+       745.18       553.09         -696      -745.18      -553.09         -696
+       553.09       422.55          928      -553.09      -422.55          928
+         -696          928     2.32e+05          696         -928     1.16e+05
+            0            0            0            0            0            0
+            0            0            0            0            0            0
+            0            0            0            0            0            0
+            0            0            0            0            0            0
+            0            0            0            0            0            0
+            0            0            0            0            0            0
+
+  Columns 7 through 9
+
+            0            0            0
+            0            0            0
+            0            0            0
+            0            0            0
+            0            0            0
+            0            0            0
+            0            0            0
+            0            0            0
+            0            0            0
+
+
+K_global =
+
+  Columns 1 through 6
+
+       745.18       553.09         -696      -745.18      -553.09         -696
+       553.09       422.55          928      -553.09      -422.55          928
+         -696          928     2.32e+05          696         -928     1.16e+05
+      -745.18      -553.09          696            0            0            0
+      -553.09      -422.55         -928            0            0            0
+         -696          928     1.16e+05            0            0            0
+            0            0            0            0            0            0
+            0            0            0            0            0            0
+            0            0            0            0            0            0
+
+  Columns 7 through 9
+
+            0            0            0
+            0            0            0
+            0            0            0
+            0            0            0
+            0            0            0
+            0            0            0
+            0            0            0
+            0            0            0
+            0            0            0
+
+
+K_global =
+
+  Columns 1 through 6
+
+       745.18       553.09         -696      -745.18      -553.09         -696
+       553.09       422.55          928      -553.09      -422.55          928
+         -696          928     2.32e+05          696         -928     1.16e+05
+      -745.18      -553.09          696       745.18       553.09          696
+      -553.09      -422.55         -928       553.09       422.55         -928
+         -696          928     1.16e+05          696         -928     2.32e+05
+            0            0            0            0            0            0
+            0            0            0            0            0            0
+            0            0            0            0            0            0
+
+  Columns 7 through 9
+
+            0            0            0
+            0            0            0
+            0            0            0
+            0            0            0
+            0            0            0
+            0            0            0
+            0            0            0
+            0            0            0
+            0            0            0
+
+</pre><img vspace="5" hspace="5" src="StructureBasic_02.png" alt=""> <pre class="codeoutput">
+memStartNode =
+
+     2
+
+
+mS1 =
+
+     4
+
+
+mS3 =
+
+     6
+
+
+memEndNode =
+
+     3
+
+
+mE1 =
+
+     7
+
+
+mE3 =
+
+     9
+
+
+K_global_OLD =
+
+  Columns 1 through 6
+
+       745.18       553.09         -696      -745.18      -553.09         -696
+       553.09       422.55          928      -553.09      -422.55          928
+         -696          928     2.32e+05          696         -928     1.16e+05
+      -745.18      -553.09          696       745.18       553.09          696
+      -553.09      -422.55         -928       553.09       422.55         -928
+         -696          928     1.16e+05          696         -928     2.32e+05
+            0            0            0            0            0            0
+            0            0            0            0            0            0
+            0            0            0            0            0            0
+
+  Columns 7 through 9
+
+            0            0            0
+            0            0            0
+            0            0            0
+            0            0            0
+            0            0            0
+            0            0            0
+            0            0            0
+            0            0            0
+            0            0            0
+
+
+K_global =
+
+  Columns 1 through 6
+
+       745.18       553.09         -696      -745.18      -553.09         -696
+       553.09       422.55          928      -553.09      -422.55          928
+         -696          928     2.32e+05          696         -928     1.16e+05
+      -745.18      -553.09          696       2195.2       553.09          696
+      -553.09      -422.55         -928       553.09       437.65        884.5
+         -696          928     1.16e+05          696        884.5     5.22e+05
+            0            0            0            0            0            0
+            0            0            0            0            0            0
+            0            0            0            0            0            0
+
+  Columns 7 through 9
+
+            0            0            0
+            0            0            0
+            0            0            0
+            0            0            0
+            0            0            0
+            0            0            0
+            0            0            0
+            0            0            0
+            0            0            0
+
+
+K_global =
+
+  Columns 1 through 6
+
+       745.18       553.09         -696      -745.18      -553.09         -696
+       553.09       422.55          928      -553.09      -422.55          928
+         -696          928     2.32e+05          696         -928     1.16e+05
+      -745.18      -553.09          696       2195.2       553.09          696
+      -553.09      -422.55         -928       553.09       437.65        884.5
+         -696          928     1.16e+05          696        884.5     5.22e+05
+            0            0            0            0            0            0
+            0            0            0            0            0            0
+            0            0            0            0            0            0
+
+  Columns 7 through 9
+
+            0            0            0
+            0            0            0
+            0            0            0
+        -1450            0            0
+            0      -15.104       1812.5
+            0      -1812.5     1.45e+05
+            0            0            0
+            0            0            0
+            0            0            0
+
+
+K_global =
+
+  Columns 1 through 6
+
+       745.18       553.09         -696      -745.18      -553.09         -696
+       553.09       422.55          928      -553.09      -422.55          928
+         -696          928     2.32e+05          696         -928     1.16e+05
+      -745.18      -553.09          696       2195.2       553.09          696
+      -553.09      -422.55         -928       553.09       437.65        884.5
+         -696          928     1.16e+05          696        884.5     5.22e+05
+            0            0            0        -1450            0            0
+            0            0            0            0      -15.104      -1812.5
+            0            0            0            0       1812.5     1.45e+05
+
+  Columns 7 through 9
+
+            0            0            0
+            0            0            0
+            0            0            0
+        -1450            0            0
+            0      -15.104       1812.5
+            0      -1812.5     1.45e+05
+            0            0            0
+            0            0            0
+            0            0            0
+
+
+K_global =
+
+  Columns 1 through 6
+
+       745.18       553.09         -696      -745.18      -553.09         -696
+       553.09       422.55          928      -553.09      -422.55          928
+         -696          928     2.32e+05          696         -928     1.16e+05
+      -745.18      -553.09          696       2195.2       553.09          696
+      -553.09      -422.55         -928       553.09       437.65        884.5
+         -696          928     1.16e+05          696        884.5     5.22e+05
+            0            0            0        -1450            0            0
+            0            0            0            0      -15.104      -1812.5
+            0            0            0            0       1812.5     1.45e+05
+
+  Columns 7 through 9
+
+            0            0            0
+            0            0            0
+            0            0            0
+        -1450            0            0
+            0      -15.104       1812.5
+            0      -1812.5     1.45e+05
+         1450            0            0
+            0       15.104      -1812.5
+            0      -1812.5      2.9e+05
+
+</pre><img vspace="5" hspace="5" src="StructureBasic_03.png" alt=""> <pre class="codeinput"><span class="keyword">end</span>
+
+surface(K_global)
+</pre><img vspace="5" hspace="5" src="StructureBasic_04.png" alt=""> <h2>Reduce the Gloal Stiffness Matrix<a name="12"></a></h2><pre class="codeinput">K_global_r = K_global(DOFs,DOFs)
+</pre><pre class="codeoutput">
+K_global_r =
+
+       2195.2       553.09          696
+       553.09       437.65        884.5
+          696        884.5     5.22e+05
+
+</pre><h2>Determine Fixed end forces at member ends<a name="13"></a></h2><pre class="codeinput">FE_forces = zeros(1,numDOFs)
+
+<span class="comment">% Node 2 is the only free node, we need to define the x,y and FE-moment ...</span>
+<span class="comment">% force applied by the external load.</span>
+
+<span class="comment">% Force in x is zero as applied load is vertical</span>
+FE_forces(4) = 0;
+
+<span class="comment">% Force in y is 3kN/m * L_member2 /2 = 3*6/2 = 9kN Reaction is in -ve</span>
+<span class="comment">% direction</span>
+FE_forces(5) = -30;
+
+<span class="comment">% FE-Moment is 3kN/m * L_member2^2 /12 = (3*6^2)/12 = 54kNm +is clockwise</span>
+<span class="comment">% and reaction is counter-clockwise</span>
+FE_forces(6) = -1200;
+
+<span class="comment">% Reduce FE_forces vector</span>
+FE_forces_r = FE_forces(DOFs)'
+</pre><pre class="codeoutput">
+FE_forces =
+
+     0     0     0     0     0     0     0     0     0
+
+
+FE_forces_r =
+
+           0
+         -30
+       -1200
+
+</pre><h2>Invert the Reduced Vector and find the interum displacements<a name="14"></a></h2><pre class="codeinput">F_global_r = K_global_r^-1
+
+D_global_r = F_global_r*FE_forces_r
+</pre><pre class="codeoutput">
+F_global_r =
+
+   0.00066851  -0.00084593   5.4203e-07
+  -0.00084593    0.0033632  -4.5708e-06
+   5.4203e-07  -4.5708e-06   1.9227e-06
+
+
+D_global_r =
+
+     0.024727
+    -0.095411
+   -0.0021702
+
+</pre><h2>Put reduced displacments back into global Displacements vector<a name="15"></a></h2><pre class="codeinput">D_global = zeros(1,numDOFs)
+
+D_global(DOFs) = D_global_r
+</pre><pre class="codeoutput">
+D_global =
+
+     0     0     0     0     0     0     0     0     0
+
+
+D_global =
+
+  Columns 1 through 6
+
+            0            0            0     0.024727    -0.095411   -0.0021702
+
+  Columns 7 through 9
+
+            0            0            0
+
+</pre><h2>Multiply Full Global Displacements by Stiffness Matrix to determine all forces<a name="16"></a></h2><pre class="codeinput">Q_global = D_global*K_global
+</pre><pre class="codeoutput">
+Q_global =
+
+  Columns 1 through 6
+
+       35.855       24.625      -145.99   6.3949e-14          -30        -1200
+
+  Columns 7 through 9
+
+      -35.855       5.3745       -487.6
+
+</pre><h2>Find Member Body Forces<a name="17"></a></h2><pre class="codeinput"><span class="comment">% For member i cycle through the member list and print the body forces for</span>
+<span class="comment">% each</span>
+<span class="keyword">for</span> i = 1:length(MemeberStiffness_array)
+    Member = i
+    k_member = MemeberStiffness_array{i}
+    beta_member = MemeberTransformation_array{i}
+
+    memStartNode = MemberTable(i,1)
+    mS1 = (memStartNode-1)*3+1
+    mS3 = (memStartNode-1)*3+3
+
+    memEndNode = MemberTable(i,2)
+    mE1 = (memEndNode-1)*3+1
+    mE3 = (memEndNode-1)*3+3
+
+
+    D_member = D_global([mS1:mS3,mE1:mE3])
+
+
+    q_member = k_member'*beta_member*D_member'
+
+    MemberForces_array{i} = q_member;
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">
+Member =
+
+     1
+
+
+k_member =
+
+         1160            0            0        -1160            0            0
+            0       7.7333         1160            0      -7.7333         1160
+            0         1160     2.32e+05            0        -1160     1.16e+05
+        -1160            0            0         1160            0            0
+            0      -7.7333        -1160            0       7.7333        -1160
+            0         1160     1.16e+05            0        -1160     2.32e+05
+
+
+beta_member =
+
+          0.8          0.6            0            0            0            0
+         -0.6          0.8            0            0            0            0
+            0            0            1            0            0            0
+            0            0            0          0.8          0.6            0
+            0            0            0         -0.6          0.8            0
+            0            0            0            0            0            1
+
+
+memStartNode =
+
+     1
+
+
+mS1 =
+
+     1
+
+
+mS3 =
+
+     3
+
+
+memEndNode =
+
+     2
+
+
+mE1 =
+
+     4
+
+
+mE3 =
+
+     6
+
+
+D_member =
+
+            0            0            0     0.024727    -0.095411   -0.0021702
+
+
+q_member =
+
+       43.459
+      -1.8124
+      -145.99
+      -43.459
+       1.8124
+      -397.72
+
+
+Member =
+
+     2
+
+
+k_member =
+
+         1450            0            0        -1450            0            0
+            0       15.104       1812.5            0      -15.104       1812.5
+            0       1812.5      2.9e+05            0      -1812.5     1.45e+05
+        -1450            0            0         1450            0            0
+            0      -15.104      -1812.5            0       15.104      -1812.5
+            0       1812.5     1.45e+05            0      -1812.5      2.9e+05
+
+
+beta_member =
+
+     1     0     0     0     0     0
+     0     1     0     0     0     0
+     0     0     1     0     0     0
+     0     0     0     1     0     0
+     0     0     0     0     1     0
+     0     0     0     0     0     1
+
+
+memStartNode =
+
+     2
+
+
+mS1 =
+
+     4
+
+
+mS3 =
+
+     6
+
+
+memEndNode =
+
+     3
+
+
+mE1 =
+
+     7
+
+
+mE3 =
+
+     9
+
+
+D_member =
+
+     0.024727    -0.095411   -0.0021702            0            0            0
+
+
+q_member =
+
+       35.855
+      -5.3745
+      -802.28
+      -35.855
+       5.3745
+       -487.6
+
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Basic Stiffness Matrix Example (Based on Hibbeler Example. 16-2) 
+%{
+
+    Created: C.Stewart
+    16/6/215
+
+
+%}
+clear;
+close all;
+clc;
+
+format shortG
+
+%% Define Nodes 
+
+NodeTable = [1	0   0; %[NodeNum, x-coord, y-coord]
+            2	240	180;
+            3	480	180]
+        
+% Define the Fixed Degrees of Freedom
+numDOFs = length(NodeTable)*3
+DOFs = logical(ones(1,numDOFs))
+
+DOFs(1:3) = 0
+DOFs(7:9) = 0
+
+%% Define Members 
+
+% Example section ???
+A_m2 = 12 %((12*25.4)^2)/1000^2 % Based on 12" from Hibbeler
+E_Pa = 29E3 %200E9 % Using Pascals
+I_m4 = 600 %((600*25.4)^4)/(1000^4) % Based on 600in^4
+ 
+LENGTH_COL = 6;
+ANGLE_COL = 7;
+
+MemberTable =   [1	2	A_m2	E_Pa I_m4; %[NodeA, NodeB,E,A,I,length,angle]
+                 2	3	A_m2	E_Pa I_m4]
+
+% Plot to verify
+figure();
+structure_plot = gcf
+hold on;
+
+for i=1:length(MemberTable(:,1))
+    memStartNode = MemberTable(i,1);
+    memEndNode = MemberTable(i,2);
+    
+    plot([NodeTable(memStartNode,2) NodeTable(memEndNode,2)],[NodeTable(memStartNode,3) NodeTable(memEndNode,3)],'b')
+end
+
+ax = gca;
+axis_min = min([ax.XLim ax.YLim])
+axis_max = max([ax.XLim ax.YLim])
+range = axis_max-axis_min
+padding = range/5
+axisLimits = [axis_min-padding, axis_max+padding]
+axis([axisLimits axisLimits])
+
+hold off;
+
+%% Make a blank Global Stifness Matrix
+K_global = zeros(length(NodeTable)*3)
+
+
+%% Add length and angle to member table
+
+for i = 1:length(MemberTable(:,1))
+    
+    % Set temp variable for each member
+    memStartNode = MemberTable(i,1);
+    memEndNode = MemberTable(i,2);
+
+    % Find change in node coords for x and y
+    memDeltaX = (NodeTable(memEndNode,2)-NodeTable(memStartNode,2));
+    memDeltaY = (NodeTable(memEndNode,3)-NodeTable(memStartNode,3));
+    
+    %Find the length
+    memLength = sqrt(memDeltaX^2+memDeltaY^2);
+    
+    % Find the angle
+    memAngle = atan(memDeltaY/memDeltaX);
+    
+    MemberTable(i,LENGTH_COL) = memLength;
+    MemberTable(i,ANGLE_COL) = memAngle;   
+end
+
+MemberTable
+
+%% Make a Local Stiffness Matrix
+
+% Initialise two lists to store member stiffness and transformation matricies
+MemeberStiffness_array={};
+MemeberTransformation_array={};
+
+for i=1:length(MemberTable(:,1))
+    
+L = MemberTable(i,LENGTH_COL)
+
+[k_member] =    [A_m2*E_Pa/L  0           0           -A_m2*E_Pa/L      0               0;
+                0       12*E_Pa*I_m4/L^3  6*E_Pa*I_m4/L^2   0           -12*E_Pa*I_m4/L^3     6*E_Pa*I_m4/L^2;
+                0       6*E_Pa*I_m4/L^2   4*E_Pa*I_m4/L     0           -6*E_Pa*I_m4/L^2      2*E_Pa*I_m4/L;
+                -A_m2*E_Pa/L  0           0           A_m2*E_Pa/L       0               0;
+                0       -12*E_Pa*I_m4/L^3 -6*E_Pa*I_m4/L^2  0           12*E_Pa*I_m4/L^3      -6*E_Pa*I_m4/L^2;
+                0       6*E_Pa*I_m4/L^2  2*E_Pa*I_m4/L     0           -6*E_Pa*I_m4/L^2      4*E_Pa*I_m4/L]
+
+% Store Member Stiffness Matrix in array
+MemeberStiffness_array{i} = k_member;
+            
+%% Make a Transformation Matrix
+
+angle  = MemberTable(i,ANGLE_COL)
+
+alphaX =cos(angle)
+alphaY =sin(angle)
+
+[beta_memeber] =    [alphaX alphaY 0 0 0 0;
+                     -alphaY alphaX 0 0 0 0;
+                     0 0 1 0 0 0;
+                     0 0 0 alphaX alphaY 0;
+                     0 0 0 -alphaY alphaX 0;
+                     0 0 0 0 0 1]
+
+% Store Memeber Transformation Matrix in array
+MemeberTransformation_array{i} = beta_memeber;
+
+%% Transform Stiffness Matrix to Global Coordinates   
+
+K_member = beta_memeber'*k_member*beta_memeber % nb: ' indicates transposition
+
+
+%% Add Member Matrix to Global Stiffness Matrix
+
+    memStartNode = MemberTable(i,1)
+    mS1 = (memStartNode-1)*3+1
+    mS3 = (memStartNode-1)*3+3
+    
+    memEndNode = MemberTable(i,2)
+    mE1 = (memEndNode-1)*3+1
+    mE3 = (memEndNode-1)*3+3
+    
+    K_global_OLD = K_global
+    % Kii
+    K_global(mS1:mS3,mS1:mS3) =  K_global(mS1:mS3,mS1:mS3)+ K_member(1:3,1:3)
+    surface(K_global)
+    
+    % Kij
+    K_global(mS1:mS3,mE1:mE3) = K_global(mS1:mS3,mE1:mE3)+ K_member(1:3,4:6)
+    
+    % Kij
+    K_global(mE1:mE3,mS1:mS3) = K_global(mE1:mE3,mS1:mS3)+ K_member(4:6,1:3)
+    
+    % Kjj
+    K_global(mE1:mE3,mE1:mE3) = K_global(mE1:mE3,mE1:mE3)+ K_member(4:6,4:6)
+    
+end
+
+surface(K_global)
+
+%% Reduce the Gloal Stiffness Matrix
+
+K_global_r = K_global(DOFs,DOFs)
+
+%% Determine Fixed end forces at member ends
+
+FE_forces = zeros(1,numDOFs)
+
+% Node 2 is the only free node, we need to define the x,y and FE-moment ...
+% force applied by the external load.
+
+% Force in x is zero as applied load is vertical 
+FE_forces(4) = 0;
+
+% Force in y is 3kN/m * L_member2 /2 = 3*6/2 = 9kN Reaction is in -ve
+% direction
+FE_forces(5) = -30;
+
+% FE-Moment is 3kN/m * L_member2^2 /12 = (3*6^2)/12 = 54kNm +is clockwise
+% and reaction is counter-clockwise
+FE_forces(6) = -1200;
+
+% Reduce FE_forces vector
+FE_forces_r = FE_forces(DOFs)'
+
+%% Invert the Reduced Vector and find the interum displacements
+F_global_r = K_global_r^-1
+
+D_global_r = F_global_r*FE_forces_r
+
+%% Put reduced displacments back into global Displacements vector
+D_global = zeros(1,numDOFs)
+
+D_global(DOFs) = D_global_r
+
+%% Multiply Full Global Displacements by Stiffness Matrix to determine all forces
+
+Q_global = D_global*K_global
+
+
+%% Find Member Body Forces
+
+% For member i cycle through the member list and print the body forces for
+% each
+for i = 1:length(MemeberStiffness_array)
+    Member = i
+    k_member = MemeberStiffness_array{i}
+    beta_member = MemeberTransformation_array{i}
+    
+    memStartNode = MemberTable(i,1)
+    mS1 = (memStartNode-1)*3+1
+    mS3 = (memStartNode-1)*3+3
+    
+    memEndNode = MemberTable(i,2)
+    mE1 = (memEndNode-1)*3+1
+    mE3 = (memEndNode-1)*3+3
+    
+
+    D_member = D_global([mS1:mS3,mE1:mE3])
+    
+  
+    q_member = k_member'*beta_member*D_member'
+    
+    MemberForces_array{i} = q_member;
+end
+
+
+
+
+##### SOURCE END #####
+--></body></html>
