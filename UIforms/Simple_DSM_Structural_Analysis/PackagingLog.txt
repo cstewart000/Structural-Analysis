@@ -1,0 +1,26 @@
+ant:
+<ant>
+  <mkdir dir="/Users/helloworld/Documents/GITHUB/Structural Analysis/Structural-Analysis/UIforms/Simple_DSM_Structural_Analysis/for_redistribution" />
+  <mkdir dir="/Users/helloworld/Documents/GITHUB/Structural Analysis/Structural-Analysis/UIforms/Simple_DSM_Structural_Analysis/for_testing" />
+  <mkdir dir="/Users/helloworld/Documents/GITHUB/Structural Analysis/Structural-Analysis/UIforms/Simple_DSM_Structural_Analysis/for_redistribution_files_only" />
+</ant>
+mcc -o Simple_DSM_Structural_Analysis -W main:Simple_DSM_Structural_Analysis -T link:exe -d '/Users/helloworld/Documents/GITHUB/Structural Analysis/Structural-Analysis/UIforms/Simple_DSM_Structural_Analysis/for_testing' -v '/Users/helloworld/Documents/GITHUB/Structural Analysis/Structural-Analysis/UIforms/UI.m' -a '/Users/helloworld/Documents/GITHUB/Structural Analysis/Structural-Analysis/UIforms/currentfig.fig' -a '/Users/helloworld/Documents/GITHUB/Structural Analysis/Structural-Analysis/UIforms/Material' -a '/Users/helloworld/Documents/GITHUB/Structural Analysis/Structural-Analysis/UIforms/materialData.mat' -a '/Users/helloworld/Documents/GITHUB/Structural Analysis/Structural-Analysis/UIforms/Member' -a '/Users/helloworld/Documents/GITHUB/Structural Analysis/Structural-Analysis/UIforms/Member Loads' -a '/Users/helloworld/Documents/GITHUB/Structural Analysis/Structural-Analysis/UIforms/memberData.mat' -a '/Users/helloworld/Documents/GITHUB/Structural Analysis/Structural-Analysis/UIforms/Node' -a '/Users/helloworld/Documents/GITHUB/Structural Analysis/Structural-Analysis/UIforms/Node Loads' -a '/Users/helloworld/Documents/GITHUB/Structural Analysis/Structural-Analysis/UIforms/nodeData.mat' -a '/Users/helloworld/Documents/GITHUB/Structural Analysis/Structural-Analysis/UIforms/Section' -a '/Users/helloworld/Documents/GITHUB/Structural Analysis/Structural-Analysis/UIforms/sectionData.mat' -a '/Users/helloworld/Documents/GITHUB/Structural Analysis/Structural-Analysis/UIforms/UI.m' 
+Compiler version: 6.0 (R2015a)
+Dependency analysis by REQUIREMENTS.
+[Warning: Adding path "/Users/helloworld/Documents/GITHUB/Structural
+Analysis/Structural-Analysis/UIforms" to Compiler path instance.] 
+Parsing file "/Users/helloworld/Documents/GITHUB/Structural Analysis/Structural-Analysis/UIforms/UI.m"
+	(Referenced from: "Compiler Command Line").
+Deleting 0 temporary MEX authorization files.
+Generating file "/Users/helloworld/Documents/GITHUB/Structural Analysis/Structural-Analysis/UIforms/Simple_DSM_Structural_Analysis/for_testing/readme.txt".
+Generating file "/Users/helloworld/Documents/GITHUB/Structural Analysis/Structural-Analysis/UIforms/Simple_DSM_Structural_Analysis/for_testing/run_Simple_DSM_Structural_Analysis.sh".
+Packaging...
+Adding custom icon /Applications/MATLAB_R2015a.app/toolbox/compiler/Resources/default_icon.icns to /Users/helloworld/Documents/GITHUB/Structural Analysis/Structural-Analysis/UIforms/Simple_DSM_Structural_Analysis/for_testing/Simple_DSM_Structural_Analysis.app.
+Creating the bundle...
+Copying /Applications/MATLAB_R2015a.app/toolbox/compiler/maci64/setup.app to /Users/helloworld/Documents/GITHUB/Structural Analysis/Structural-Analysis/UIforms/Simple_DSM_Structural_Analysis/for_redistribution/MyAppInstaller_web.app.
+Copying /Users/helloworld/Documents/GITHUB/Structural Analysis/Structural-Analysis/UIforms/Simple_DSM_Structural_Analysis/for_redistribution/bundle.zip to /Users/helloworld/Documents/GITHUB/Structural Analysis/Structural-Analysis/UIforms/Simple_DSM_Structural_Analysis/for_redistribution/MyAppInstaller_web.app/Contents/Resources/bundle.zip.
+Copying /Applications/MATLAB_R2015a.app/toolbox/compiler/Resources/default_splash.png to /Users/helloworld/Documents/GITHUB/Structural Analysis/Structural-Analysis/UIforms/Simple_DSM_Structural_Analysis/for_redistribution/MyAppInstaller_web.app/Contents/Resources/splash.png.
+Copying /Applications/MATLAB_R2015a.app/toolbox/compiler/Resources/default_icon.icns to /Users/helloworld/Documents/GITHUB/Structural Analysis/Structural-Analysis/UIforms/Simple_DSM_Structural_Analysis/for_redistribution/MyAppInstaller_web.app/Contents/Resources/installer.icns.
+Web based installer created at /Users/helloworld/Documents/GITHUB/Structural Analysis/Structural-Analysis/UIforms/Simple_DSM_Structural_Analysis/for_redistribution/MyAppInstaller_web.app.
+Packaging complete.
+Elapsed packaging time was: 55 seconds.

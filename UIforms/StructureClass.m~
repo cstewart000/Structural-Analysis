@@ -35,7 +35,6 @@ classdef StructureClass < handle
         NumberOfNodes
         NumberOfDOFs
         MemberLoads_array
-        MemberLoadTable
         reducedGlobalLoadVector
         DisplacementVector
         SectionList_array
@@ -55,13 +54,12 @@ classdef StructureClass < handle
     end
     methods
         % Constructor Method
-        function obj = StructureClass(NodeTable,MemberTable,SectionTable,MaterialTable, MemberLoadTable)
+        function obj = StructureClass(NodeTable,MemberTable,SectionTable,MaterialTable, )
             if  nargin > 0
                 obj.MemberTable = MemberTable;
                 obj.MaterialTable = MaterialTable;
                 obj.NodeTable = NodeTable;
                 obj.SectionTable = SectionTable;
-                obj.DistributedLoadTable = MemberLoadTable
                 
             end
         end
@@ -72,9 +70,9 @@ classdef StructureClass < handle
             
             nargin
             
-            if(nargin==6)
+            if(nargin==5)
                 
-                fieldnames = {'NodeTable','MemberTable','SectionTable','MaterialTable','MemberLoadTable'};
+                fieldnames = {'NodeTable','MemberTable','SectionTable','MaterialTable'};
                 
                 for i=1:nargin-1
                     if(iscell(varargin{i}))
@@ -169,10 +167,10 @@ classdef StructureClass < handle
             
             % Distributed Loads
             
-            table = obj.MemberLoadTable
+            table = obj.DistributedLoadTable
             for i=1: length(table(:,1))
                 
-                obj.MemberLoads_array{i} = struct('member',table(i,1), 'loadType', 'UDL', 'axis', 'local' , 'magnitude', table(i,3));
+                Structure.MemberLoads_array{i} = struct('member',table(i,2), 'loadType', 'UDL', 'axis', 'local' , 'magnitude', table(i,4));
             end
             
         end
@@ -379,7 +377,7 @@ classdef StructureClass < handle
         end
         %% Define Loads
         function obj = memberUDLs(obj)
-            for r=1: length(obj.MemberLoads_array)
+            for r=1:length(obj.MemberLoads_array)
                 
                 if(strcmp(obj.MemberLoads_array{r}.loadType, 'UDL'));
                     
@@ -399,7 +397,6 @@ classdef StructureClass < handle
                 
                 % FEM at side B is in the opposite sense (clockwise hence neg)
                 obj.MemberList_array{memberNumber}.FEMnodeB = -memberFEM
-                
                 
                 
                 % Shear of the beam is opposite to the applied load (hence negative)

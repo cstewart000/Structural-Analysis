@@ -54,9 +54,9 @@ end
 %Structure = StructureClass
 %BikeWheel.loadTables();
 
-Structure.loadTables(nodeData,memberData,sectionData,materialData,memberLoadData);
+%Structure.loadTables(nodeData,memberData,sectionData,materialData);
 
-%Structure.loadTables();
+Structure.loadTables();
 Structure.loadArrayLists();
 Structure.addGeometryToMembers();
 Structure.calcLocalStiffness();
